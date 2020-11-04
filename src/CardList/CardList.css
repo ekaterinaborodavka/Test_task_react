@@ -1,0 +1,14 @@
+.card_list{
+    width: 85%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 1%;
+}
+
+.wrong{
+    width: 60%;
+    color: red;
+    margin: 0.5%;
+    text-align: center;
+}

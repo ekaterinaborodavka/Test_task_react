@@ -1,0 +1,50 @@
+.card_list_item{
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border: 1px solid rgb(180, 176, 176);
+    margin: 1%;
+    padding: 1%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.card_list_item_wrapper{
+    width: 80%;
+}
+
+.card_list_item_wrapper div{
+    padding: 0.5%;
+}
+
+.card_list_item_buttons{
+    width: 13%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card_list_item_buttons button{
+    width: 100%;
+    margin: 0.5%;
+    border: 1px solid gray;
+}
+
+.card_list_item_buttons button:hover{
+    background-color: rgb(160, 214, 247);
+}
+
+.card_list_item_button_edit{
+    background-color: rgb(253, 253, 219);
+}
+
+.card_list_item_button_add{
+    background-color: rgb(197, 247, 197);
+}
+
+.card_list_item_button_delete{
+    background-color: rgb(247, 188, 188);
+}
+
+.card_list_item div span{
+    font-weight: bold;
+}
