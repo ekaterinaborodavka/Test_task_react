@@ -1,4 +1,8 @@
-import { ON_SEARCH_CHANGE, GET_PRODUCT, DELETE_CARD, ADD_CART } from '../types/types';
+import { ON_SEARCH_CHANGE,
+        GET_PRODUCT,
+        DELETE_CARD,
+        ADD_CART,
+        CREATE_CARD } from '../types/types';
 
 export const initialState = {
     cardList: [],
@@ -18,7 +22,7 @@ export const initialState = {
       }
       case GET_PRODUCT:
         case DELETE_CARD:
-          case ADD_CART: {
+          case CREATE_CARD:{
         return {
           ...state,
           cardList: action.subtype === 'success' ? action.list : state.cardList,

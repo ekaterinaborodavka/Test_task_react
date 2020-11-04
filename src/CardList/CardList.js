@@ -28,7 +28,7 @@ export default function CardList() {
 
     const addCart = useCallback(
         (id) => {
-            dispatch(cardActions.addCart(id))
+            dispatch(cardActions.addCart(id, true))
         },
         [dispatch],
     )

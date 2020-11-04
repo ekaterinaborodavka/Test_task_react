@@ -1,7 +1,12 @@
-import { ON_SEARCH_CHANGE, GET_PRODUCT, DELETE_CARD, ADD_CART } from '../types/types';
+import { ON_SEARCH_CHANGE,
+        GET_PRODUCT,
+        DELETE_CARD,
+        ADD_CART,
+        CREATE_CARD } from '../types/types';
 import { getProducts as getProductsList,
-        deleteItem, updateCard } from '../../Services/service'
-import { toggleCart } from '../../Utils/cardUtils'
+        deleteItem, updateCard, 
+        createCard as createCardService} from '../../Services/service'
+import { toggleCart, createNewCard } from '../../Utils/cardUtils'
 
 export const onSearchChange = (substring) => {
     return {
@@ -56,10 +61,10 @@ export const onSearchChange = (substring) => {
   };
 }
 
-export const addCart = (id) => {
+export const addCart = (id, bool) => {
   return async (dispatch, getState) =>{
   const state = getState();
-  const newList = toggleCart(id, state.card.cardList)
+  const newList = toggleCart(id, state.card.cardList, bool)
   const index = newList.findIndex((item) => item.id === id);
   const editItem = newList[index]
   const newBasketList = newList.filter((e) => e.inCart);
@@ -84,3 +89,27 @@ export const addCart = (id) => {
   });
 };
 }
+
+export const createCard = (card) => async (dispatch, getState) =>{
+  const state = getState();
+  dispatch({
+    type: CREATE_CARD,
+    subtype: 'loading',
+  });
+  const newCard = createNewCard(card)
+  createCardService(newCard).then((res) => {
+    console.log('ressssss',res.data);
+    const newList = [...state.card.cardList, res.data];
+    dispatch({
+      type: CREATE_CARD,
+      subtype: 'success',
+      list: newList,
+    });
+  }, (error) => {
+    dispatch({
+      type: CREATE_CARD,
+      subtype: 'failed',
+      error: error.message,
+    });
+  });
+};

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import './CardListItem.css';
 
 export default function CardListItem(props) {
-    const { title, price, description, id } = props.card
+    const { title, price, description, id, inCart } = props.card
     const { onDelete, addCart } = props
     const history = useHistory();
 
@@ -44,6 +44,7 @@ export default function CardListItem(props) {
                     Edit
                 </button>
                 <button className='card_list_item_button_add'
+                    disabled={ inCart }
                     onClick={ addToCart }>
                     Add to card
                 </button>
