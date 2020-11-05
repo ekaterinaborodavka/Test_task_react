@@ -8,6 +8,15 @@ export const createNewCard = (card) => {
   }
 }
 
+export const addNewCart = (card) => {
+  delete card.inCart
+  return {
+    ...card,
+    id: uuidv4(),
+    quantity: 1,
+  }
+}
+
 export const filterCard = (cardList, substring) => {
   if (substring.length === 0) {
     return cardList;
@@ -24,4 +33,16 @@ export const toggleCart = (id, cardList, bool) => {
     }
     return item;
   });
+};
+
+export const getTotal = (carts) => {
+  const newCarts = carts.map((e) => {
+    return {
+      ...e,
+      price: e.price*e.quantity
+    }
+  })
+  return newCarts.reduce((acc, item) => {
+    return acc + parseFloat(item.price);
+  }, 0);
 };

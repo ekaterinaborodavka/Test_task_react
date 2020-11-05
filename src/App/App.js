@@ -10,7 +10,6 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import MainPage from '../MainPage/MainPage';
 import CreatePage from '../CreatePage/CreatePage';
 import CartPage from '../CartPage/CartPage';
-import EditPage from '../EditPage/EditPage';
 
 import './App.css';
 import * as cardActions from '../Store/actions/cardActions';
@@ -38,7 +37,7 @@ export default function App() {
           <CartPage />
         </Route>
         <Route path='/edit'>
-          <EditPage />
+          <CreatePage />
         </Route>
       </Switch>
     </Router>

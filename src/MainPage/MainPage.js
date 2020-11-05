@@ -6,15 +6,20 @@ import './MainPage.css';
 import basket from '../img/basket.png';
 import plus from '../img/plus.png';
 import CardList from '../CardList/CardList';
+import * as cardActions from '../Store/actions/cardActions';
 // import PropTypes from 'prop-types';
 
 export default function MainPage(props) {
   const history = useHistory();
+  const dispatch = useDispatch()
   const { onSearchChange } = props;
 
   const goPages = useCallback(
     (e) => {
       history.push(`/${e.target.name}`);
+      if(e.target.name === 'create'){
+        dispatch(cardActions.changeEdit(false));
+      }
     },
     [history],
   ) 

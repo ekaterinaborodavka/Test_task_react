@@ -1,15 +1,20 @@
 import React, { useCallback } from 'react'
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import './CardListItem.css';
+import * as cardActions from '../Store/actions/cardActions';
 
 export default function CardListItem(props) {
     const { title, price, description, id, inCart } = props.card
     const { onDelete, addCart } = props
     const history = useHistory();
+    const dispatch = useDispatch()
 
     const goEditPage = useCallback(
         () => {
+            dispatch(cardActions.changeEdit(true));
+            dispatch(cardActions.editId(id));
             history.push('/edit')
         }
     )
@@ -21,7 +26,8 @@ export default function CardListItem(props) {
     )
 
     const addToCart = useCallback(
-        () => {
+        (e) => {
+            e.preventDefault();
             addCart(id);
         },[id, addCart]
     )

@@ -1,0 +1,14 @@
+.gomain_button_wrapper{
+    width: 100%;
+}
+
+.gomain_button{
+    margin: 1%;
+    background-color: rgb(142, 216, 206);
+    border: 1px solid transparent;
+    padding: 0.2%;
+}
+
+.gomain_button:hover{
+    background-color: rgb(172, 152, 218);
+}

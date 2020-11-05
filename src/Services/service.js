@@ -2,21 +2,30 @@ const headers = {
   'content-type': 'application/json',
 };
 
-export const getProducts = async () => {
-  return fetch( 'http://localhost:3000/products' ).then((res) => res.json())
+export const get = async (resource) => {
+  return fetch( `http://localhost:3000/${resource}` ).then((res) => res.json())
       .then((res) => {
         return res;
       });
 };
 
-export const deleteItem = async (id) => {
-  return fetch( ['http://localhost:3000/products', id].join('/'),
+export const deleteItem = async (id, resource) => {
+  return fetch( [`http://localhost:3000/${resource}`, id].join('/'),
    {headers, method: 'DELETE'})
 };
 
-export const updateCard= async (id, item) => {
-  return fetch( ['http://localhost:3000/products', id].join('/'),
+export const updateCard= async (id, item, resource) => {
+  const result = await fetch( [`http://localhost:3000/${resource}`, id].join('/'),
    {headers, body: JSON.stringify(item),  method: 'PATCH'})
+   let data ={};
+   if (result.ok) {
+     data = await result.json();
+   } else {
+     throw new Error('Something went wrong');
+   }
+   return {
+     data,
+   };
 };
 
 export const createCard = async (item) => {
@@ -26,7 +35,22 @@ export const createCard = async (item) => {
   if (result.ok) {
     data = await result.json();
   } else {
-    throw new Error('Description cannot be empty');
+    throw new Error('Something went wrong');
+  }
+  return {
+    data,
+  };
+};
+
+export const addCardBasket = async (item) => {
+  console.log(item);
+  const result = await fetch( 'http://localhost:3000/cart',
+      { headers, body: JSON.stringify(item), method: 'POST' } );
+  let data ={};
+  if (result.ok) {
+    data = await result.json();
+  } else {
+    throw new Error('Something went wrong');
   }
   return {
     data,

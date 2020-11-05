@@ -1,0 +1,19 @@
+.pagination{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 2%;
+}
+
+.pagination_item{
+    width: 2%;
+    border: 1px solid grey;
+    text-align: center;
+    padding: 0.5%;
+    margin: 0.1%;
+    font-weight: bold;
+}
+
+.pagination_item:hover{
+    color: rgb(12, 46, 109);
+}

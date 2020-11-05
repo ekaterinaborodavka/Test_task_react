@@ -1,0 +1,12 @@
+
+.buttons_plus_minus{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.buttons_plus_minus .button_plus ,.buttons_plus_minus .button_minus, span{
+    width: 25%;
+    margin: 2%;
+    text-align: center;
+}
