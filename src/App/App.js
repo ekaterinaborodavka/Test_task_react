@@ -3,9 +3,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from 'react-router-dom';
-import { shallowEqual, useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import MainPage from '../MainPage/MainPage';
 import CreatePage from '../CreatePage/CreatePage';
@@ -16,13 +15,13 @@ import * as cardActions from '../Store/actions/cardActions';
 
 
 export default function App() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const onSearchChange = useCallback(
-    (substring) => {
-      dispatch(cardActions.onSearchChange(substring));
-    }, [dispatch],
-);
+      (substring) => {
+        dispatch(cardActions.onSearchChange(substring));
+      }, [dispatch],
+  );
 
   return (
     <Router>

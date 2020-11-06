@@ -1,8 +1,8 @@
-import { UPDATE_FORM, CREATE_CARD } from '../types/types';
+import { UPDATE_FORM } from '../types/types';
 
 export const updateForm = (updatedForm) => {
-    return {
-      type: UPDATE_FORM,
-      payload: updatedForm,
-    };
+  return {
+    type: UPDATE_FORM,
+    payload: updatedForm,
   };
+};

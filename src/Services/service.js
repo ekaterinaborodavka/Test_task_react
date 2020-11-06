@@ -11,21 +11,21 @@ export const get = async (resource) => {
 
 export const deleteItem = async (id, resource) => {
   return fetch( [`http://localhost:3000/${resource}`, id].join('/'),
-   {headers, method: 'DELETE'})
+      {headers, method: 'DELETE'});
 };
 
 export const updateCard= async (id, item, resource) => {
   const result = await fetch( [`http://localhost:3000/${resource}`, id].join('/'),
-   {headers, body: JSON.stringify(item),  method: 'PATCH'})
-   let data ={};
-   if (result.ok) {
-     data = await result.json();
-   } else {
-     throw new Error('Something went wrong');
-   }
-   return {
-     data,
-   };
+      {headers, body: JSON.stringify(item), method: 'PATCH'});
+  let data ={};
+  if (result.ok) {
+    data = await result.json();
+  } else {
+    throw new Error('Something went wrong');
+  }
+  return {
+    data,
+  };
 };
 
 export const createCard = async (item) => {
@@ -43,7 +43,6 @@ export const createCard = async (item) => {
 };
 
 export const addCardBasket = async (item) => {
-  console.log(item);
   const result = await fetch( 'http://localhost:3000/cart',
       { headers, body: JSON.stringify(item), method: 'POST' } );
   let data ={};

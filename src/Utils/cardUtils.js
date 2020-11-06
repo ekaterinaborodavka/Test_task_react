@@ -4,18 +4,18 @@ export const createNewCard = (card) => {
   return {
     ...card,
     id: uuidv4(),
-    inCart: false
-  }
-}
+    inCart: false,
+  };
+};
 
 export const addNewCart = (card) => {
-  delete card.inCart
+  delete card.inCart;
   return {
     ...card,
     id: uuidv4(),
     quantity: 1,
-  }
-}
+  };
+};
 
 export const filterCard = (cardList, substring) => {
   if (substring.length === 0) {
@@ -39,9 +39,9 @@ export const getTotal = (carts) => {
   const newCarts = carts.map((e) => {
     return {
       ...e,
-      price: e.price*e.quantity
-    }
-  })
+      price: e.price*e.quantity,
+    };
+  });
   return newCarts.reduce((acc, item) => {
     return acc + parseFloat(item.price);
   }, 0);
