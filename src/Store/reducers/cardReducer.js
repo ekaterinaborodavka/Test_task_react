@@ -7,6 +7,7 @@ import { ON_SEARCH_CHANGE,
   ADD_CURRENT_CARD_PAGE,
   CHANGE_EDIT,
   EDIT_CARD,
+  CHANGE_PAGE,
   EDIT_ID,
   GET_CART,
   REMOVE_CART,
@@ -25,6 +26,8 @@ export const initialState = {
   edit: false,
   editId: '',
   total: 0,
+  currentPage: 1,
+  cardOnPage: 10,
 };
 
 const reducer = (state = initialState, action) => {
@@ -39,6 +42,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         edit: action.bool,
+      };
+    }
+    case CHANGE_PAGE: {
+      return {
+        ...state,
+        currentPage: action.num,
       };
     }
     case CHANGE_CURRENT_PAGE: {
@@ -65,13 +74,23 @@ const reducer = (state = initialState, action) => {
         error: action.subtype === 'failed' ? action.error : null,
       };
     }
-    case GET_PRODUCT:
-    case DELETE_CARD:
-    case CREATE_CARD:
-    case EDIT_CARD: {
+    case GET_PRODUCT: {
       return {
         ...state,
         cardList: action.subtype === 'success' ? action.list : state.cardList,
+        total: action.subtype === 'success' ? action.total : state.total,
+        loading: action.subtype === 'loading',
+        error: action.subtype === 'failed' ? action.error : null,
+      };
+    }
+    case EDIT_CARD:
+    case CREATE_CARD:
+    case DELETE_CARD: {
+      return {
+        ...state,
+        cardList: action.subtype === 'success' ? action.list : state.cardList,
+        currentCard: action.subtype === 'success' ? action.currentList :
+        state.currentCard,
         total: action.subtype === 'success' ? action.total : state.total,
         loading: action.subtype === 'loading',
         error: action.subtype === 'failed' ? action.error : null,
@@ -99,7 +118,10 @@ const reducer = (state = initialState, action) => {
     case ADD_CURRENT_CARD_PAGE: {
       return {
         ...state,
-        currentCard: action.currentList,
+        currentCard: action.subtype === 'success' ? action.list :
+        state.currentCard,
+        loading: action.subtype === 'loading',
+        error: action.subtype === 'failed' ? action.error : null,
       };
     }
     default:

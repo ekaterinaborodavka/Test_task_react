@@ -2,8 +2,8 @@ const headers = {
   'content-type': 'application/json',
 };
 
-export const get = async (resource) => {
-  return fetch( `http://localhost:3000/${resource}` ).then((res) => res.json())
+export const get = async (url) => {
+  return fetch( url ).then((res) => res.json())
       .then((res) => {
         return res;
       });

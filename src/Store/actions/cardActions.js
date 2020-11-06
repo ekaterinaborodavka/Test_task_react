@@ -6,6 +6,7 @@ import { ON_SEARCH_CHANGE,
   ADD_CURRENT_CARD_PAGE,
   CHANGE_EDIT,
   EDIT_CARD,
+  CHANGE_PAGE,
   EDIT_ID,
   GET_CART,
   REMOVE_CART,
@@ -43,10 +44,10 @@ export const editId = (id) => {
   };
 };
 
-export const addCurrentCarPage = (currentList) => {
+export const changePage = (num) => {
   return {
-    type: ADD_CURRENT_CARD_PAGE,
-    currentList,
+    type: CHANGE_PAGE,
+    num,
   };
 };
 
@@ -57,14 +58,14 @@ export const changeCurrentPage = (currentPage) => {
   };
 };
 
-export const getProduct = () => {
+export const getProduct = (url) => {
   return async (dispatch, getState) => {
     const state = getState();
     dispatch({
       type: GET_PRODUCT,
       subtype: 'loading',
     });
-    get('products').then((res) => {
+    get(url).then((res) => {
       dispatch({
         type: GET_PRODUCT,
         subtype: 'success',
@@ -81,14 +82,35 @@ export const getProduct = () => {
   };
 };
 
+export const addCurrentCardPage = (url) => {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: ADD_CURRENT_CARD_PAGE,
+      subtype: 'loading',
+    });
+    get(url).then((res) => {
+      dispatch({
+        type: ADD_CURRENT_CARD_PAGE,
+        subtype: 'success',
+        list: res,
+      });
+    }, (error) => {
+      dispatch({
+        type: ADD_CURRENT_CARD_PAGE,
+        subtype: 'failed',
+        error: error.message,
+      });
+    });
+  };
+};
+
 export const getCart = () => {
   return async (dispatch, getState) => {
-    const state = getState();
     dispatch({
       type: GET_CART,
       subtype: 'loading',
     });
-    get('cart').then((res) => {
+    get('http://localhost:3000/cart').then((res) => {
       dispatch({
         type: GET_CART,
         subtype: 'success',
@@ -108,15 +130,21 @@ export const getCart = () => {
 export const deleteCard = (id) => {
   return async (dispatch, getState) =>{
     const state = getState();
+    const currentPage = state.card.currentPage;
+    const cadrOnPage = state.card.cardOnPage;
     dispatch({
       type: DELETE_CARD,
       subtype: 'loading',
     });
     deleteItem(id, 'products').then(()=> {
       const newList = state.card.cardList.filter((e) => e.id !== id);
+      const newCurrentList = dispatch(addCurrentCardPage(
+          `http://localhost:3000/products?_page=${
+            currentPage}&_limit=${cadrOnPage}`));
       dispatch({
         type: DELETE_CARD,
         subtype: 'success',
+        currentList: newCurrentList,
         list: newList,
       });
     }, (error) => {
@@ -244,6 +272,8 @@ export const addCart = (id, bool) => {
 
 export const createCard = (card) => async (dispatch, getState) =>{
   const state = getState();
+  const currentPage = state.card.currentPage;
+  const cadrOnPage = state.card.cardOnPage;
   dispatch({
     type: CREATE_CARD,
     subtype: 'loading',
@@ -255,9 +285,13 @@ export const createCard = (card) => async (dispatch, getState) =>{
       price: Number(res.data.price),
     };
     const newList = [...state.card.cardList, newItem];
+    const newCurrentList = dispatch(addCurrentCardPage(
+        `http://localhost:3000/products?_page=${
+          currentPage}&_limit=${cadrOnPage}`));
     dispatch({
       type: CREATE_CARD,
       subtype: 'success',
+      currentList: newCurrentList,
       list: newList,
     });
   }, (error) => {
@@ -272,6 +306,8 @@ export const createCard = (card) => async (dispatch, getState) =>{
 export const editCard = (id, editItem) => {
   return async (dispatch, getState) =>{
     const state = getState();
+    const currentPage = state.card.currentPage;
+    const cadrOnPage = state.card.cardOnPage;
     const list = state.card.cardList;
     const editId = state.card.editId;
     const editCard = list.filter((e) => e.id === editId);
@@ -290,13 +326,16 @@ export const editCard = (id, editItem) => {
       const editCardList = [...list];
       const editCard = editCardList[ind];
       editCardList[ind] = {...editCard, ...res.data};
+      const newCurrentList = dispatch(addCurrentCardPage(
+          `http://localhost:3000/products?_page=${
+            currentPage}&_limit=${cadrOnPage}`));
       dispatch({
         type: EDIT_CARD,
         subtype: 'success',
         list: editCardList,
+        currentList: newCurrentList,
         total: getTotal(state.card.basketList),
       });
-      dispatch(getProduct());
     }, (error) => {
       dispatch({
         type: EDIT_CARD,

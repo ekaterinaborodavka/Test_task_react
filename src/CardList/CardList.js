@@ -21,7 +21,7 @@ export default function CardList() {
   const firstRenderCard = cardList.slice(0, 10);
 
   useEffect(() => {
-    dispatch(cardActions.getProduct());
+    dispatch(cardActions.getProduct('http://localhost:3000/products'));
   }, [dispatch]);
 
   const filterCardList = filterCard(
@@ -45,6 +45,7 @@ export default function CardList() {
 
   return (
     <React.Fragment>
+      <Pagination />
       <ul className='card_list'>
         {error && <div className='wrong' >ERROR: {error}</div>}
         { loading ? <Loader /> : Array.isArray(filterCardList) &&
@@ -59,7 +60,6 @@ export default function CardList() {
            );
          })}
       </ul>
-      <Pagination />
     </React.Fragment>
   );
 }

@@ -33,7 +33,7 @@ export default function CartPage() {
       <ButtonMain />
       <ul className='cart_list'>
         {error && <div className='wrong' >ERROR: {error}</div>}
-        { basketList.length === 0 ? <div className='cart_empty'>
+        { basketList.length === 0 && !loading ? <div className='cart_empty'>
                   Your cart is empty
         </div> : null}
         { loading ? <Loader /> : Array.isArray(basketList) &&

@@ -1,24 +1,23 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 
 import * as cardActions from '../Store/actions/cardActions';
 import './Pagination.css';
 
 export default function Pagination() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [cardOnPage] = useState(10);
   const cardList = useSelector((state) => state.card.cardList, shallowEqual);
+  const cardOnPage = useSelector((state) => state.card.cardOnPage,
+      shallowEqual);
   const dispatch = useDispatch();
-
-  const indexOfLast = currentPage * cardOnPage;
-  const indexOfFirst = indexOfLast - cardOnPage;
-  const currentCards = cardList.slice(indexOfFirst, indexOfLast);
 
   const changePagesPagin = useCallback(
       ( e ) => {
-        setCurrentPage(Number(e.target.id));
-        dispatch(cardActions.addCurrentCarPage(currentCards));
-      }, [dispatch, currentCards],
+        dispatch(cardActions.changePage(Number(e.target.id)));
+        dispatch(cardActions.addCurrentCardPage(
+            `http://localhost:3000/products?_page=${
+              e.target.id}&_limit=${cardOnPage}`,
+        ));
+      }, [dispatch, cardOnPage],
   );
 
   const pagesNumb = [];
